@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Repository for managing Order entities in the database.
+ * Provides methods to retrieve orders by customer ID and status.
  */
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {

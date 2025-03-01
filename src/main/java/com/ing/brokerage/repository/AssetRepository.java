@@ -8,6 +8,7 @@ import java.util.Optional;
 
 /**
  * Repository for managing Asset entities in the database.
+ * Provides methods to retrieve assets owned by a customer.
  */
 @Repository
 public interface AssetRepository extends JpaRepository<Asset, Long> {

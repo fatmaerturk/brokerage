@@ -7,6 +7,7 @@ import java.util.Optional;
 
 /**
  * Repository for managing Customer entities in the database.
+ * Provides methods to find a customer by username.
  */
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {

@@ -18,6 +18,11 @@ public class OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private AssetRepository assetRepository;
+    /**
+     * Creates a new order if the customer has sufficient balance/assets.
+     * @param order The order to be created.
+     * @return The created order, or null if validation fails.
+     */
     public Order createOrder(Order order) {
         Optional<Asset> tryAsset = assetRepository.findByCustomerIdAndAssetName(order.getCustomerId(), "TRY");
         if ("BUY".equals(order.getOrderSide())) {
@@ -38,11 +43,18 @@ public class OrderService {
         }
         return null;
     }
-
+    /**
+     * Retrieves all orders for a given customer.
+     * @param customerId The ID of the customer.
+     * @return List of orders.
+     */
     public List<Order> listOrders(Long customerId) {
         return orderRepository.findByCustomerId(customerId);
     }
-
+    /**
+     * Cancels an order if it is still pending.
+     * @param orderId The ID of the order to be canceled.
+     */
     public void cancelOrder(Long orderId) {
         Optional<Order> order = orderRepository.findById(orderId);
         if (order.isPresent() && "PENDING".equals(order.get().getStatus())) {
