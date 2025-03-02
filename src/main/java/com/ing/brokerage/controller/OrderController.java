@@ -20,11 +20,15 @@ public class OrderController {
      * @param order The order details.
      * @return The created order or bad request if validation fails.
      */
+
+
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        System.out.println("Received Order Request: " + order.getAssetName());
         Order createdOrder = orderService.createOrder(order);
         return createdOrder != null ? ResponseEntity.ok(createdOrder) : ResponseEntity.badRequest().build();
     }
+
     /**
      * Endpoint to retrieve orders of a specific customer.
      * @param customerId The ID of the customer.

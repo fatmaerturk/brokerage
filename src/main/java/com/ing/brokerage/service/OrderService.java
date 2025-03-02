@@ -24,25 +24,37 @@ public class OrderService {
      * @return The created order, or null if validation fails.
      */
     public Order createOrder(Order order) {
+        order.setStatus("PENDING");  // Set default status
+
+        System.out.println("Processing Order: " + order);
+
         Optional<Asset> tryAsset = assetRepository.findByCustomerIdAndAssetName(order.getCustomerId(), "TRY");
+        System.out.println("TRY Balance: " + tryAsset);
+
         if ("BUY".equals(order.getOrderSide())) {
-            if (tryAsset.isPresent() && tryAsset.get().getUsableSize() >= order.getSize() * order.getPrice().intValue()) {
-                tryAsset.get().setUsableSize(tryAsset.get().getUsableSize() - (order.getSize() * order.getPrice().intValue()));
-                assetRepository.save(tryAsset.get());
-                order.setStatus("PENDING");
-                return orderRepository.save(order);
-            }
-        } else if ("SELL".equals(order.getOrderSide())) {
-            Optional<Asset> asset = assetRepository.findByCustomerIdAndAssetName(order.getCustomerId(), order.getAssetName());
-            if (asset.isPresent() && asset.get().getUsableSize() >= order.getSize()) {
-                asset.get().setUsableSize(asset.get().getUsableSize() - order.getSize());
-                assetRepository.save(asset.get());
-                order.setStatus("PENDING");
-                return orderRepository.save(order);
+            if (tryAsset.isPresent()) {
+                System.out.println("Customer TRY Balance: " + tryAsset.get().getUsableSize());
+                double requiredAmount = order.getSize() * order.getPrice().doubleValue();
+                System.out.println("Required TRY: " + requiredAmount);
+
+                if (tryAsset.get().getUsableSize() >= requiredAmount) {
+                    tryAsset.get().setUsableSize(tryAsset.get().getUsableSize() - (int) requiredAmount);
+                    assetRepository.save(tryAsset.get());
+
+                    order.setStatus("PENDING");
+                    System.out.println("Saving Order: " + order);
+                    return orderRepository.save(order);
+                } else {
+                    System.out.println("Not enough TRY balance.");
+                }
+            } else {
+                System.out.println("TRY asset not found.");
             }
         }
+
         return null;
     }
+
     /**
      * Retrieves all orders for a given customer.
      * @param customerId The ID of the customer.
