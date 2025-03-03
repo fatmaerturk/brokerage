@@ -1,8 +1,10 @@
 package com.ing.brokerage.service;
 
 import com.ing.brokerage.dto.OrderRequest;
+import com.ing.brokerage.entity.Asset;
 import com.ing.brokerage.entity.Customer;
 import com.ing.brokerage.entity.Order;
+import com.ing.brokerage.repository.AssetRepository;
 import com.ing.brokerage.repository.CustomerRepository;
 import com.ing.brokerage.repository.OrderRepository;
 import com.ing.brokerage.util.OrderStatus;
@@ -22,10 +24,40 @@ public class OrderService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private AssetRepository assetRepository;
+
     public Order createOrder(OrderRequest orderRequest) {
         if (!"TRY".equals(orderRequest.getAssetName())) {
             throw new IllegalArgumentException("Orders can only be placed for the TRY asset.");
         }
+
+        Customer customer = customerRepository.findById(orderRequest.getCustomerId())
+                .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+
+        Asset customerAsset = assetRepository.findByCustomerIdAndAssetName(orderRequest.getCustomerId(), "TRY")
+                .orElseThrow(() -> new IllegalArgumentException("Customer does not have TRY asset."));
+
+        if ("BUY".equalsIgnoreCase(orderRequest.getOrderSide())) {
+            double totalCost = orderRequest.getSize() * orderRequest.getPrice();
+            if (customerAsset.getUsableSize() < totalCost) {
+                throw new IllegalArgumentException("Not enough usable size in TRY asset.");
+            }
+            customerAsset.setUsableSize(customerAsset.getUsableSize() - totalCost);
+        } else if ("SELL".equalsIgnoreCase(orderRequest.getOrderSide())) {
+            Asset assetToSell = assetRepository.findByCustomerIdAndAssetName(orderRequest.getCustomerId(), orderRequest.getAssetName())
+                    .orElseThrow(() -> new IllegalArgumentException("Customer does not have the asset to sell."));
+            if (assetToSell.getUsableSize() < orderRequest.getSize()) {
+                throw new IllegalArgumentException("Not enough usable size in the asset to sell.");
+            }
+            assetToSell.setUsableSize(assetToSell.getUsableSize() - orderRequest.getSize());
+            customerAsset.setUsableSize(customerAsset.getUsableSize() + orderRequest.getSize() * orderRequest.getPrice());
+            assetRepository.save(assetToSell);
+        } else {
+            throw new IllegalArgumentException("Invalid order side.");
+        }
+
+        assetRepository.save(customerAsset);
 
         Order order = new Order();
         order.setAssetName(orderRequest.getAssetName());
@@ -34,9 +66,6 @@ public class OrderService {
         order.setPrice(orderRequest.getPrice());
         order.setStatus(OrderStatus.PENDING);
         order.setCreateDate(new Date());
-
-        Customer customer = customerRepository.findById(orderRequest.getCustomerId())
-                .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
         order.setCustomer(customer);
 
         return orderRepository.save(order);

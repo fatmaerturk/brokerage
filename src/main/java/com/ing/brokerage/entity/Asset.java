@@ -28,7 +28,7 @@ public class Asset {
 
     private String assetName;
     private int size;
-    private int usableSize;
+    private double usableSize;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
