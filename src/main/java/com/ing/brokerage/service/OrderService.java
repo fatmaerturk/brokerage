@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -34,5 +35,21 @@ public class OrderService {
         order.setCustomer(customer);
 
         return orderRepository.save(order);
+    }
+
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId).orElse(null);
+    }
+
+    public boolean cancelOrder(Long orderId) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            if (order.getStatus() == OrderStatus.PENDING) {
+                orderRepository.delete(order);
+                return true;
+            }
+        }
+        return false;
     }
 }
