@@ -5,20 +5,20 @@ import com.ing.brokerage.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
 
-    public Customer login(String customerId, String password) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() ->
-                new IllegalArgumentException("Customer not found with ID: " + customerId));
+    public boolean authenticate(String username, String password) {
+        Optional<Customer> customerOptional = customerRepository.findByNameAndPassword(username, password);
+        return customerOptional.isPresent();
+    }
 
-        if (!customer.getPassword().equals(password)) {
-            throw new IllegalArgumentException("Invalid password");
-        }
-
-        return customer;
+    public Customer getCustomerById(String customerId) {
+        return customerRepository.findById(customerId).orElse(null);
     }
 }
