@@ -21,6 +21,8 @@ public class Customer {
     private String id;
     private String name;
     private String password;
+    private String email;
+    private String phoneNumber;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Asset> assets;

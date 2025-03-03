@@ -5,29 +5,33 @@ import com.ing.brokerage.entity.Customer;
 import com.ing.brokerage.entity.Order;
 import com.ing.brokerage.repository.CustomerRepository;
 import com.ing.brokerage.repository.OrderRepository;
+import com.ing.brokerage.util.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class OrderService {
 
     @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
     private OrderRepository orderRepository;
 
-    public Order createOrder(OrderRequest orderRequest) {
-        Customer customer = customerRepository.findById(orderRequest.getCustomerId()).orElseThrow(() ->
-                new IllegalArgumentException("Customer not found with ID: " + orderRequest.getCustomerId()));
+    @Autowired
+    private CustomerRepository customerRepository;
 
-        Order order = new Order(
-                customer,
-                orderRequest.getAssetName(),
-                orderRequest.getOrderSide(),
-                orderRequest.getSize(),
-                orderRequest.getPrice()
-        );
+    public Order createOrder(OrderRequest orderRequest) {
+        Order order = new Order();
+        order.setAssetName(orderRequest.getAssetName());
+        order.setOrderSide(orderRequest.getOrderSide());
+        order.setSize(orderRequest.getSize());
+        order.setPrice(orderRequest.getPrice());
+        order.setStatus(OrderStatus.PENDING);
+        order.setCreateDate(new Date());
+
+        Customer customer = customerRepository.findById(orderRequest.getCustomerId())
+                .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+        order.setCustomer(customer);
 
         return orderRepository.save(order);
     }

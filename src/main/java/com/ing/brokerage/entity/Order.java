@@ -1,42 +1,35 @@
 package com.ing.brokerage.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ing.brokerage.util.OrderStatus;
+import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@JsonIgnoreProperties("customer")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String assetName;
     private String orderSide;
     private int size;
     private double price;
 
-    @ManyToOne
-    private Customer customer;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
-    public Order(Customer customer, String assetName, String orderSide, int size, double price) {
-        this.customer = customer;
-        this.assetName = assetName;
-        this.orderSide = orderSide;
-        this.size = size;
-        this.price = price;
-    }
+    private Date createDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 }

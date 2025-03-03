@@ -5,13 +5,10 @@ import com.ing.brokerage.entity.Order;
 import com.ing.brokerage.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
     @Autowired
@@ -19,7 +16,7 @@ public class OrderController {
 
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest) {
-        Order order = orderService.createOrder(orderRequest);
-        return ResponseEntity.ok(order);
+        Order createdOrder = orderService.createOrder(orderRequest);
+        return ResponseEntity.ok(createdOrder);
     }
 }

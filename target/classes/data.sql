@@ -2,11 +2,13 @@
 CREATE TABLE IF NOT EXISTS customers (
     id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255),
-    password VARCHAR(255)
+    password VARCHAR(255),
+    email VARCHAR(255),
+    phone_number VARCHAR(255)
 );
 
 -- Insert initial data into customers table
-INSERT INTO customers (id, name, password) VALUES ('1', 'admin', 'password');
+INSERT INTO customers (id, name, password, email, phone_number) VALUES ('1', 'admin', 'password', 'admin@example.com', '1234567890');
 
 -- Create assets table
 CREATE TABLE IF NOT EXISTS assets (
