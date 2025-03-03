@@ -4,8 +4,12 @@ import com.ing.brokerage.dto.OrderRequest;
 import com.ing.brokerage.entity.Order;
 import com.ing.brokerage.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
@@ -34,5 +38,14 @@ public class OrderController {
         } else {
             return ResponseEntity.badRequest().body("Only pending orders can be cancelled.");
         }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Order>> listOrders(
+            @RequestParam String customerId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate) {
+        List<Order> orders = orderService.listOrders(customerId, startDate, endDate);
+        return ResponseEntity.ok(orders);
     }
 }
