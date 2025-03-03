@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 public class OrderController {
 
     @Autowired
@@ -36,11 +36,15 @@ public class OrderController {
 
     @DeleteMapping("/cancel/{orderId}")
     public ResponseEntity<String> cancelOrder(@PathVariable Long orderId) {
-        boolean isCancelled = orderService.cancelOrder(orderId);
-        if (isCancelled) {
-            return ResponseEntity.ok("Order cancelled successfully.");
-        } else {
-            return ResponseEntity.badRequest().body("Only pending orders can be cancelled.");
+        try {
+            boolean isCancelled = orderService.cancelOrder(orderId);
+            if (isCancelled) {
+                return ResponseEntity.ok("Order cancelled successfully.");
+            } else {
+                return ResponseEntity.badRequest().body("Only pending orders can be cancelled.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
