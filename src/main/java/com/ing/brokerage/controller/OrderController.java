@@ -19,9 +19,13 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest) {
-        Order createdOrder = orderService.createOrder(orderRequest);
-        return ResponseEntity.ok(createdOrder);
+    public ResponseEntity<String> createOrder(@RequestBody OrderRequest orderRequest) {
+        try {
+            Order createdOrder = orderService.createOrder(orderRequest);
+            return ResponseEntity.ok("Order created successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/{orderId}")

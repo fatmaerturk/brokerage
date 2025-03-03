@@ -23,6 +23,10 @@ public class OrderService {
     private CustomerRepository customerRepository;
 
     public Order createOrder(OrderRequest orderRequest) {
+        if (!"TRY".equals(orderRequest.getAssetName())) {
+            throw new IllegalArgumentException("Orders can only be placed for the TRY asset.");
+        }
+
         Order order = new Order();
         order.setAssetName(orderRequest.getAssetName());
         order.setOrderSide(orderRequest.getOrderSide());
