@@ -3,25 +3,28 @@ package com.ing.brokerage.controller;
 import com.ing.brokerage.model.Asset;
 import com.ing.brokerage.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
- * REST Controller for handling asset-related operations.
+ * Controller for asset-related endpoints.
  */
 @RestController
-@RequestMapping("/api/assets")
+@RequestMapping("/assets")
 public class AssetController {
+
     @Autowired
     private AssetService assetService;
+
     /**
-     * Endpoint to retrieve a list of assets owned by a customer.
-     * @param customerId The ID of the customer.
-     * @return List of assets.
+     * Endpoint to list all assets for a given customer.
      */
-    @GetMapping("/list/{customerId}")
-    public ResponseEntity<List<Asset>> listAssets(@PathVariable Long customerId) {
-        return ResponseEntity.ok(assetService.listAssets(customerId));
+    @GetMapping
+    public ResponseEntity<List<Asset>> listAssets(@RequestParam String customerId) {
+        List<Asset> assets = assetService.listAssets(customerId);
+        return new ResponseEntity<>(assets, HttpStatus.OK);
     }
 }
