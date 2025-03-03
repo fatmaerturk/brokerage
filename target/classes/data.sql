@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS customers (
 );
 
 -- Insert initial data into customers table
-INSERT INTO customers (id, name, password, email, phone_number) VALUES ('1', 'admin', 'password', 'admin@example.com', '1234567890');
+INSERT INTO customers (id, name, password, email, phone_number) VALUES ('1', 'fatmaerturk', 'password', 'admin@example.com', '1234567890');
 
 -- Create assets table
 CREATE TABLE IF NOT EXISTS assets (

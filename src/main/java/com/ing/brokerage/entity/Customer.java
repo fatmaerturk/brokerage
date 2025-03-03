@@ -1,5 +1,6 @@
 package com.ing.brokerage.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,11 +11,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-
 @Entity
 @Table(name = "customers")
 @Getter
 @Setter
+@JsonIgnoreProperties({"assets", "orders"})
 public class Customer {
 
     @Id
