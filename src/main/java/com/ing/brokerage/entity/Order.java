@@ -1,4 +1,4 @@
-package com.ing.brokerage.model;
+package com.ing.brokerage.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

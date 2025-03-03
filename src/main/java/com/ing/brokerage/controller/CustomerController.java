@@ -1,7 +1,7 @@
 package com.ing.brokerage.controller;
 
 import com.ing.brokerage.dto.CustomerLoginRequest;
-import com.ing.brokerage.model.Customer;
+import com.ing.brokerage.entity.Customer;
 import com.ing.brokerage.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

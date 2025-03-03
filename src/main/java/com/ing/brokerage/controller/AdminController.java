@@ -1,7 +1,7 @@
 package com.ing.brokerage.controller;
 
 import com.ing.brokerage.dto.OrderRequest;
-import com.ing.brokerage.model.Order;
+import com.ing.brokerage.entity.Order;
 import com.ing.brokerage.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

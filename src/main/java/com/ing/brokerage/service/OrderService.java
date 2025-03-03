@@ -1,8 +1,8 @@
 package com.ing.brokerage.service;
 
 import com.ing.brokerage.dto.OrderRequest;
-import com.ing.brokerage.model.Customer;
-import com.ing.brokerage.model.Order;
+import com.ing.brokerage.entity.Customer;
+import com.ing.brokerage.entity.Order;
 import com.ing.brokerage.repository.CustomerRepository;
 import com.ing.brokerage.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;

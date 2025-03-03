@@ -1,4 +1,4 @@
-package com.ing.brokerage.model;
+package com.ing.brokerage.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -18,7 +18,7 @@ import java.util.List;
 public class Customer {
 
     @Id
-    private String customerId;
+    private String id;
     private String name;
     private String password;
 

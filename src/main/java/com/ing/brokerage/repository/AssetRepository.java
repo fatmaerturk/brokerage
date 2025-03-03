@@ -1,6 +1,6 @@
 package com.ing.brokerage.repository;
 
-import com.ing.brokerage.model.Asset;
+import com.ing.brokerage.entity.Asset;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

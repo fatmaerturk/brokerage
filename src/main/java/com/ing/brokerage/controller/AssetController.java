@@ -1,6 +1,6 @@
 package com.ing.brokerage.controller;
 
-import com.ing.brokerage.model.Asset;
+import com.ing.brokerage.entity.Asset;
 import com.ing.brokerage.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
