@@ -54,7 +54,7 @@ This project is a Java backend API for a brokerage firm. It allows employees to 
    ```
    ./mvnw spring-boot:run
    ```
-4. The API will be available at `http://localhost:8091`.
+4. The API will be available at `http://localhost:8080`.
 
 ## Testing
 Unit tests are included; run them with:
