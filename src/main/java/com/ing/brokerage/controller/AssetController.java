@@ -2,9 +2,10 @@ package com.ing.brokerage.controller;
 
 import com.ing.brokerage.entity.Asset;
 import com.ing.brokerage.service.AssetService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -15,15 +16,28 @@ import java.util.List;
 @RequestMapping("/assets")
 public class AssetController {
 
-    @Autowired
-    private AssetService assetService;
+    private final AssetService assetService;
+
+    public AssetController(AssetService assetService) {
+        this.assetService = assetService;
+    }
 
     /**
-     * Endpoint to list all assets for a given customer.
+     * Endpoint to list all assets for the authenticated customer.
      */
     @GetMapping("/list")
-    public ResponseEntity<List<Asset>> listAssets(@RequestParam String customerId) {
+    public ResponseEntity<List<Asset>> listAssets() {
+        String customerId = getAuthenticatedCustomerId();
         List<Asset> assets = assetService.listAssets(customerId);
         return new ResponseEntity<>(assets, HttpStatus.OK);
+    }
+
+    private String getAuthenticatedCustomerId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
     }
 }
