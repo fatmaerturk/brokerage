@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class AssetService {
     @Autowired
-    private AssetRepository assetRepository;
+    public AssetRepository assetRepository;
     public List<Asset> listAssets(String customerId) {
         return assetRepository.findByCustomerId(customerId);
     }
