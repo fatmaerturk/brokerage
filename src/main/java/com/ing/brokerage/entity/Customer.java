@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+
 @Entity
 @Table(name = "customers")
 @Getter
@@ -24,6 +25,7 @@ public class Customer {
     private String password;
     private String email;
     private String phoneNumber;
+    private boolean isAdmin;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Asset> assets;

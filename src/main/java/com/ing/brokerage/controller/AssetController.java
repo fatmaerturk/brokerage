@@ -22,7 +22,7 @@ public class AssetController {
     /**
      * Endpoint to list all assets for a given customer.
      */
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<Asset>> listAssets(@RequestParam String customerId) {
         List<Asset> assets = assetService.listAssets(customerId);
         return new ResponseEntity<>(assets, HttpStatus.OK);

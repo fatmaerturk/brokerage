@@ -29,15 +29,18 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
-        Order order = orderService.getOrderById(orderId);
+    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId, @RequestParam String customerId) {
+        Order order = orderService.getOrderByIdAndCustomerId(orderId, customerId);
+        if (order == null) {
+            return ResponseEntity.status(403).body(null);
+        }
         return ResponseEntity.ok(order);
     }
 
     @DeleteMapping("/cancel/{orderId}")
-    public ResponseEntity<String> cancelOrder(@PathVariable Long orderId) {
+    public ResponseEntity<String> cancelOrder(@PathVariable Long orderId, @RequestParam String customerId) {
         try {
-            boolean isCancelled = orderService.cancelOrder(orderId);
+            boolean isCancelled = orderService.cancelOrder(orderId, customerId);
             if (isCancelled) {
                 return ResponseEntity.ok("Order cancelled successfully.");
             } else {

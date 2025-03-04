@@ -71,30 +71,39 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order getOrderById(Long orderId) {
-        return orderRepository.findById(orderId).orElse(null);
-    }
-
-    public boolean cancelOrder(Long orderId) {
+    public Order getOrderByIdAndCustomerId(Long orderId, String customerId) {
         Optional<Order> orderOptional = orderRepository.findById(orderId);
         if (orderOptional.isPresent()) {
             Order order = orderOptional.get();
-            if (order.getStatus() == OrderStatus.PENDING) {
-                Asset customerAsset = assetRepository.findByCustomerIdAndAssetName(order.getCustomer().getId(), "TRY")
-                        .orElseThrow(() -> new IllegalArgumentException("Customer does not have TRY asset."));
-                if ("BUY".equalsIgnoreCase(order.getOrderSide())) {
-                    double totalCost = order.getSize() * order.getPrice();
-                    customerAsset.setUsableSize(customerAsset.getUsableSize() + totalCost);
-                } else if ("SELL".equalsIgnoreCase(order.getOrderSide())) {
-                    Asset assetToSell = assetRepository.findByCustomerIdAndAssetName(order.getCustomer().getId(), order.getAssetName())
-                            .orElseThrow(() -> new IllegalArgumentException("Customer does not have the asset to sell."));
-                    assetToSell.setUsableSize(assetToSell.getUsableSize() + order.getSize());
-                    customerAsset.setUsableSize(customerAsset.getUsableSize() - order.getSize() * order.getPrice());
-                    assetRepository.save(assetToSell);
+            if (order.getCustomer().getId().equals(customerId) || order.getCustomer().isAdmin()) {
+                return order;
+            }
+        }
+        return null;
+    }
+
+    public boolean cancelOrder(Long orderId, String customerId) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            if (order.getCustomer().getId().equals(customerId) || order.getCustomer().isAdmin()) {
+                if (order.getStatus() == OrderStatus.PENDING) {
+                    Asset customerAsset = assetRepository.findByCustomerIdAndAssetName(order.getCustomer().getId(), "TRY")
+                            .orElseThrow(() -> new IllegalArgumentException("Customer does not have TRY asset."));
+                    if ("BUY".equalsIgnoreCase(order.getOrderSide())) {
+                        double totalCost = order.getSize() * order.getPrice();
+                        customerAsset.setUsableSize(customerAsset.getUsableSize() + totalCost);
+                    } else if ("SELL".equalsIgnoreCase(order.getOrderSide())) {
+                        Asset assetToSell = assetRepository.findByCustomerIdAndAssetName(order.getCustomer().getId(), order.getAssetName())
+                                .orElseThrow(() -> new IllegalArgumentException("Customer does not have the asset to sell."));
+                        assetToSell.setUsableSize(assetToSell.getUsableSize() + order.getSize());
+                        customerAsset.setUsableSize(customerAsset.getUsableSize() - order.getSize() * order.getPrice());
+                        assetRepository.save(assetToSell);
+                    }
+                    assetRepository.save(customerAsset);
+                    orderRepository.delete(order);
+                    return true;
                 }
-                assetRepository.save(customerAsset);
-                orderRepository.delete(order);
-                return true;
             }
         }
         return false;
