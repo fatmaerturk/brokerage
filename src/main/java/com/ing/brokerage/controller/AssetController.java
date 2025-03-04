@@ -26,18 +26,10 @@ public class AssetController {
      * Endpoint to list all assets for the authenticated customer.
      */
     @GetMapping("/list")
-    public ResponseEntity<List<Asset>> listAssets() {
-        String customerId = getAuthenticatedCustomerId();
+    public ResponseEntity<List<Asset>> listAssets(@RequestParam String customerId) {
         List<Asset> assets = assetService.listAssets(customerId);
         return new ResponseEntity<>(assets, HttpStatus.OK);
     }
 
-    private String getAuthenticatedCustomerId() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            return principal.toString();
-        }
-    }
+
 }
