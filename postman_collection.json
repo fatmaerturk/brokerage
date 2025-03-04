@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "d3b7ec4a-4e6d-4e5e-a1e9-9d6340b9b5f3",
+		"name": "Brokerage API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"customerId\": \"customer1\", \"assetName\": \"TRY\", \"orderSide\": \"BUY\", \"size\": 100, \"price\": 10}"
+				},
+				"url": {
+					"raw": "{{url}}/admin/createOrder",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"createOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Match Pending Orders",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/admin/match-orders",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"match-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"orderId\": 1, \"customerId\": \"customer1\"}"
+				},
+				"url": {
+					"raw": "{{url}}/admin/cancelOrder",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"cancelOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/orders?customerId=customer1&startDate=2025-01-01&endDate=2025-12-31",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"orders"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "customer1"
+						},
+						{
+							"key": "startDate",
+							"value": "2025-01-01"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-12-31"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/orders/1?customerId=customer1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"orders",
+						"1"
+					],
+					"query": [
+						{
+							"key": "customerId",
+							"value": "customer1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8080"
+		}
+	]
+}
