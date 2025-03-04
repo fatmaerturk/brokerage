@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Table(name = "assets")
 @Getter
 @Setter
+@AllArgsConstructor
 @JsonIgnoreProperties("customer")
 public class Asset {
 
