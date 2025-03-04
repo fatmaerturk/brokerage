@@ -10,7 +10,7 @@ import java.util.Optional;
 public class CustomerService {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    CustomerRepository customerRepository;
 
     public boolean authenticate(String username, String password) {
         Optional<Customer> customerOptional = customerRepository.findByNameAndPassword(username, password);
