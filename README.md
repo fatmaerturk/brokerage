@@ -63,4 +63,4 @@ Unit tests are included; run them with:
 ```
 
 ## Postman Collection
-You can find the Postman collection for this API [here](postman_collection.json).
+You can find the Postman collection for this API [here](postman_collection.json). You can use the postman collection by importing this json file into postman.
