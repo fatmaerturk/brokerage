@@ -1,7 +1,7 @@
 # Brokerage Firm Backend API
 
 ## Overview
-This project is a Java backend API for a brokerage firm. It allows employees to create, list, and cancel stock orders for customers. The API also provides endpoints for listing assets, customer login, and an admin endpoint to match pending orders. Orders have statuses: PENDING, MATCHED, or CANCELED.
+This project is a Java backend API for a brokerage firm. It allows employees to create, list, and cancel stock orders for customers. The API also provides endpoints for listing assets, customer login, and order matching.
 
 ## Endpoints
 
@@ -18,7 +18,7 @@ This project is a Java backend API for a brokerage firm. It allows employees to 
   Cancels a pending order and refunds the reserved asset balance. Only orders with PENDING status can be cancelled.
 
 - **List Assets**  
-  GET `/assets?customerId=`  
+  GET `/assets/list?customerId=`  
   Returns all asset information for a given customer.
 
 - **Customer Login** (Bonus)  
@@ -61,3 +61,6 @@ Unit tests are included; run them with:
 ```
 ./mvnw test
 ```
+
+## Postman Collection
+You can find the Postman collection for this API [here](postman_collection.json).
