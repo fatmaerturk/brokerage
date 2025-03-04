@@ -19,13 +19,13 @@ import java.util.Optional;
 public class OrderService {
 
     @Autowired
-    private OrderRepository orderRepository;
+    OrderRepository orderRepository;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    CustomerRepository customerRepository;
 
     @Autowired
-    private AssetRepository assetRepository;
+    AssetRepository assetRepository;
 
     public Order createOrder(OrderRequest orderRequest) {
         if (!"TRY".equals(orderRequest.getAssetName())) {

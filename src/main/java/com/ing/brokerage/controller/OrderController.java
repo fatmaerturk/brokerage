@@ -15,7 +15,7 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
+    OrderService orderService;
 
     @PostMapping("/create")
     public ResponseEntity<String> createOrder(@RequestBody OrderRequest orderRequest) {
