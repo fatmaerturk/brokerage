@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     @Autowired
-    private OrderService orderService;
+    OrderService orderService;
 
     @PostMapping("/createOrder")
     public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest) {

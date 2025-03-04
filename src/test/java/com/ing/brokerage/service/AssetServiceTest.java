@@ -4,15 +4,11 @@ import com.ing.brokerage.entity.Asset;
 import com.ing.brokerage.repository.AssetRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
 public class AssetServiceTest {
-
     private AssetService assetService;
     private AssetRepository assetRepository;
 
@@ -22,7 +18,6 @@ public class AssetServiceTest {
         assetService = new AssetService();
         assetService.assetRepository = assetRepository;
     }
-
     @Test
     public void testListAssets() {
         List<Asset> mockAssets = Arrays.asList(new Asset(), new Asset());
