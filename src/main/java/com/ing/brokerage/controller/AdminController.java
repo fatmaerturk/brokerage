@@ -19,4 +19,14 @@ public class AdminController {
         Order order = orderService.createOrder(orderRequest);
         return ResponseEntity.ok(order);
     }
+
+    @PostMapping("/match-orders")
+    public ResponseEntity<String> matchPendingOrders() {
+        try {
+            orderService.matchPendingOrders();
+            return ResponseEntity.ok("Pending orders matched successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occurred while matching orders.");
+        }
+    }
 }

@@ -56,9 +56,7 @@ public class OrderService {
         } else {
             throw new IllegalArgumentException("Invalid order side.");
         }
-
         assetRepository.save(customerAsset);
-
         Order order = new Order();
         order.setAssetName(orderRequest.getAssetName());
         order.setOrderSide(orderRequest.getOrderSide());
@@ -111,5 +109,29 @@ public class OrderService {
 
     public List<Order> listOrders(String customerId, Date startDate, Date endDate) {
         return orderRepository.findByCustomerIdAndCreateDateBetween(customerId, startDate, endDate);
+    }
+
+    public void matchPendingOrders() {
+        List<Order> pendingOrders = orderRepository.findByStatus(OrderStatus.PENDING);
+
+        for (Order order : pendingOrders) {
+            Asset tryAsset = assetRepository.findByCustomerIdAndAssetName(order.getCustomer().getId(), "TRY")
+                    .orElseThrow(() -> new IllegalArgumentException("Customer does not have TRY asset."));
+            Asset boughtAsset = assetRepository.findByCustomerIdAndAssetName(order.getCustomer().getId(), order.getAssetName())
+                    .orElseThrow(() -> new IllegalArgumentException("Customer does not have the asset to buy/sell."));
+
+            if (order.getOrderSide().equals("BUY")) {
+                tryAsset.setUsableSize(tryAsset.getUsableSize() - order.getPrice() * order.getSize());
+                boughtAsset.setTotalSize(boughtAsset.getTotalSize() + order.getSize());
+                boughtAsset.setUsableSize(boughtAsset.getUsableSize() + order.getSize());
+            } else if (order.getOrderSide().equals("SELL")) {
+                tryAsset.setUsableSize(tryAsset.getUsableSize() + order.getPrice() * order.getSize());
+                boughtAsset.setUsableSize(boughtAsset.getUsableSize() - order.getSize());
+            }
+            order.setStatus(OrderStatus.COMPLETED);
+            orderRepository.save(order);
+            assetRepository.save(tryAsset);
+            assetRepository.save(boughtAsset);
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.ing.brokerage.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
 @Entity
 @Table(name = "assets")
 @Getter
@@ -27,7 +27,7 @@ public class Asset {
     private String customerId;
 
     private String assetName;
-    private int size;
+    private double totalSize;
     private double usableSize;
 
     @ManyToOne(fetch = FetchType.LAZY)

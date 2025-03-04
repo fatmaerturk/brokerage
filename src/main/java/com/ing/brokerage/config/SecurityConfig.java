@@ -9,9 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Security configuration class that sets up HTTP Basic auth and endpoint security.
- */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {

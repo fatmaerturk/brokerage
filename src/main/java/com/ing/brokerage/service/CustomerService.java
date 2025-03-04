@@ -4,7 +4,6 @@ import com.ing.brokerage.entity.Customer;
 import com.ing.brokerage.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
