@@ -6,15 +6,15 @@ This project is a Java backend API for a brokerage firm. It allows employees to 
 ## Endpoints
 
 - **Create Order**  
-  POST `/orders`  
+  POST `/orders/create`  
   Creates an order for a given customer. For BUY orders, the customer's TRY asset's usable balance is checked and reserved. For SELL orders, the specified asset's usable balance is checked and reserved.
 
 - **List Orders**  
-  GET `/orders?customerId=&startDate=&endDate=`  
+  GET `/orders/list?customerId=&startDate=&endDate=`  
   Lists orders created by a given customer within a date range.
 
 - **Delete Order (Cancel Order)**  
-  DELETE `/orders/{orderId}`  
+  DELETE `/orders/cancel/{orderId}?customerId`  
   Cancels a pending order and refunds the reserved asset balance. Only orders with PENDING status can be cancelled.
 
 - **List Assets**  
@@ -26,7 +26,7 @@ This project is a Java backend API for a brokerage firm. It allows employees to 
   Endpoint for customers to login. Customers can then access and manipulate only their own data.
 
 - **Match Order** (Bonus for Admin)  
-  POST `/admin/matchOrders/{orderId}`  
+  POST `/admin/match-orders`  
   Admin-only endpoint that matches a pending order:
     - For BUY orders: credits the purchased stock asset.
     - For SELL orders: credits the TRY asset with the sale proceeds.
