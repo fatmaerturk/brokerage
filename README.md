@@ -72,4 +72,7 @@ Unit tests are included; run them with:
 ```
 
 ## Postman Collection
-You can find the Postman collection for this API [here](postman_collection.json). You can use the postman collection by importing this json file into postman.
+You can find the Postman collection for this API [here](postman_collection.json). You can use the postman collection by importing this json file into postman.After importing the Postman collection, make sure to:
+Select "Basic Auth" as the authentication type.
+Use the following credentials:
+Username: admin  Password:admin
