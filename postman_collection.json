@@ -1,150 +1,230 @@
 {
-	"info": {
-		"_postman_id": "d3b7ec4a-4e6d-4e5e-a1e9-9d6340b9b5f3",
-		"name": "Brokerage API Collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Create Order",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"customerId\": \"customer1\", \"assetName\": \"TRY\", \"orderSide\": \"BUY\", \"size\": 100, \"price\": 10}"
-				},
-				"url": {
-					"raw": "{{url}}/admin/createOrder",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"admin",
-						"createOrder"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Match Pending Orders",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{url}}/admin/match-orders",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"admin",
-						"match-orders"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Cancel Order",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"orderId\": 1, \"customerId\": \"customer1\"}"
-				},
-				"url": {
-					"raw": "{{url}}/admin/cancelOrder",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"admin",
-						"cancelOrder"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "List Orders",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}/orders?customerId=customer1&startDate=2025-01-01&endDate=2025-12-31",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"orders"
-					],
-					"query": [
-						{
-							"key": "customerId",
-							"value": "customer1"
-						},
-						{
-							"key": "startDate",
-							"value": "2025-01-01"
-						},
-						{
-							"key": "endDate",
-							"value": "2025-12-31"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Order",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}/orders/1?customerId=customer1",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"orders",
-						"1"
-					],
-					"query": [
-						{
-							"key": "customerId",
-							"value": "customer1"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"variable": [
-		{
-			"key": "url",
-			"value": "http://localhost:8080"
-		}
-	]
+  "info": {
+    "name": "Brokerage Firm API",
+    "_postman_id": "a1e5f1d7-2f3b-4a5e-8c3d-5a6c8b9f6e8d",
+    "description": "Postman collection for Brokerage Firm API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Customer Login",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"password\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/customers/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "customers",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Order",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "name": "Authorization",
+            "value": "Basic YWRtaW46cGFzc3dvcmQ=",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"1\",\n  \"assetName\": \"TRY\",\n  \"orderSide\": \"BUY\",\n  \"size\": 100,\n  \"price\": 10\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/orders/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "orders",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Orders",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "name": "Authorization",
+            "value": "Basic YWRtaW46cGFzc3dvcmQ=",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/orders/list?customerId=1&startDate=2024-01-01T00:00:00Z&endDate=2025-12-31T23:59:59Z",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "orders",
+            "list"
+          ],
+          "query": [
+            {
+              "key": "customerId",
+              "value": "1"
+            },
+            {
+              "key": "startDate",
+              "value": "2024-01-01T00:00:00Z"
+            },
+            {
+              "key": "endDate",
+              "value": "2025-12-31T23:59:59Z"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Order",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "name": "Authorization",
+            "value": "Basic YWRtaW46cGFzc3dvcmQ=",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/orders/cancel/1?customerId=1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "orders",
+            "cancel",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "customerId",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Assets",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "name": "Authorization",
+            "value": "Basic YWRtaW46cGFzc3dvcmQ=",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/assets/list?customerId=1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "assets",
+            "list"
+          ],
+          "query": [
+            {
+              "key": "customerId",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Match Order (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic YWRtaW46YWRtaW4=",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/admin/match-orders",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "admin",
+            "match-orders"
+          ]
+        }
+      }
+    }
+  ]
 }
