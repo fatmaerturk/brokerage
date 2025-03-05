@@ -44,6 +44,15 @@ This project is a Java backend API for a brokerage firm. It allows employees to 
 - Spring Security
 - H2 Database
 
+## H2 Database Configuration
+The project uses H2 in-memory database for development and testing purposes. The database configuration is specified in the `application.properties` file.
+
+JDBC URL: jdbc:h2:mem:testdb
+User Name:	sa
+Password:	password 
+
+You can access the H2 database console at `http://localhost:8080/h2-console` with the details provided above.
+
 ## Build and Run
 1. Clone the repository.
 2. In the project directory, run:
